@@ -2,5 +2,6 @@
 
 void LED_init()
 {
-	DDRD |= (1 << LED_BLUE);
+	DDRD |= (1 << LED_BLUE); //Set bit to output
 }
+

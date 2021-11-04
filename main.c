@@ -4,25 +4,23 @@
 #include "serial.h"
 #include "timer.h"
 
+uint8_t simple_ramp(uint8_t *direction, uint8_t *pwmValue);
+
 void main(void)
 {
 	timer_init();
 	LED_init();
 
-	int counter = 0;
-
 	while (1)
 	{
-		//Checks for OCF0A flag when timer TCNT0 equals OCR0A (see value timer.c)
-		if (TIFR0 & (1 << OCF0A))
-		{
-			counter++;
-			TIFR0 |= (1 << OCF0A); //Clears interrupt flag
-			if (counter >= 10)
-			{
-				PORTD ^= (1 << LED_BLUE); //Toggles LED-pin
-				counter = 0;
-			}
-		}
+		/*
+		Setting different output compare values to shift led brightness/duty cycle
+		*/
+		OCR0A = 50;
+		_delay_ms(1000);
+		OCR0A = 175;
+		_delay_ms(1000);
+		OCR0A = 250;
+		_delay_ms(1000);
 	}
 }
